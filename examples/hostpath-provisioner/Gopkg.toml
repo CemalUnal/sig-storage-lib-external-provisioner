@@ -45,6 +45,3 @@
   branch = "master"
   name = "k8s.io/client-go"
 
-[prune]
-  go-tests = true
-  unused-packages = true

@@ -34,7 +34,7 @@ import (
 )
 
 const (
-	provisionerName = "example.com/hostpath"
+	provisionerName = "hostpath"
 )
 
 type hostPathProvisioner struct {
@@ -52,9 +52,15 @@ func NewHostPathProvisioner() controller.Provisioner {
 	if nodeName == "" {
 		klog.Fatal("env variable NODE_NAME must be set so that this provisioner can identify itself")
 	}
+	
+	pvDir := os.Getenv("PV_DIR")
+	if pvDir == "" {
+		klog.Fatal("env variable PV_DIR must be set so that this provisioner knows where to place its data")
+	}
+
 	return &hostPathProvisioner{
-		pvDir:    "/tmp/hostpath-provisioner",
-		identity: nodeName,
+		pvDir:         pvDir,
+		identity:      nodeName,
 	}
 }
 

@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-IMAGE?=hostpath-provisioner
+IMAGE=cunal/hostpath-provisioner
+TAG=v0.1.0
 
 all: dep hostpath-provisioner image
 
@@ -24,7 +25,10 @@ hostpath-provisioner:
 	CGO_ENABLED=0 go build -a -ldflags '-extldflags "-static"' -o hostpath-provisioner .
 
 image: hostpath-provisioner
-	docker build -t $(IMAGE) -f Dockerfile.scratch .
+	docker build -t $(IMAGE):$(TAG) .
+
+push:
+	docker push $(IMAGE):$(TAG)
 
 clean:
 	rm -rf vendor
